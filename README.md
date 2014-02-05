@@ -37,5 +37,5 @@ Architecture
 * code :  
 ** Android : Pas encore réalisé; cf http://enconn.fr/rori.php  
 ** Arduino : Pour le moment pour tester l'électronique  
-** BeagleBone : Une beaglebone white sera utilisée pour rendre le projet plus portable (ou sinon connection USB avec un PC)
-    RORI_ForGLaDOs : Pas encore porté, cf http://enconn.fr/rori.php  
+** BeagleBone : Une beaglebone white sera utilisée pour rendre le projet plus portable (ou sinon connection USB avec un PC)  
+** RORI_ForGLaDOs : Pas encore porté, cf http://enconn.fr/rori.php  
