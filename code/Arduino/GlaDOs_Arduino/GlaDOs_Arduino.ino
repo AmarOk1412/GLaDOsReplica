@@ -10,6 +10,7 @@ Servo servo1Tete;
 Servo servo2Tete;
 Servo servoCentre;
 
+
 int posServo1 = 0;
 int posServo2 = 0;
 int posServoCentre = 0;
@@ -17,6 +18,7 @@ String newValue = "";
 char carlu = 0; 
 boolean detect = false;
 boolean droite = false;
+boolean initialise = false;
 
 int REDPin = 4;    // RED pin of the LED to PWM pin 4
 int GREENPin = 5;  // GREEN pin of the LED to PWM pin 5
@@ -72,6 +74,13 @@ void centreHautBas(boolean haut)
       posServoCentre -= 4;
 }
 
+void changeColorLed(int R, int G, int B)
+{
+  analogWrite(REDPin, R); 
+  analogWrite(GREENPin, G);
+  analogWrite(BLUEPin, B);
+}
+
 void setup() 
 { 
   
@@ -85,11 +94,6 @@ void setup()
   
   servo2Tete.write(posServo1);
   servo1Tete.write(posServo2);
-  
-  analogWrite(REDPin, 255); 
-  analogWrite(GREENPin, 10);
-  analogWrite(BLUEPin, 0);
-  
   Serial.begin(9600);
   Serial.println("RORI - GLaDOs 1.0");
 } 
@@ -108,7 +112,7 @@ void loop()
     newValue += carlu; //puis on le renvoi à l’expéditeur tel quel    
   } 
   
-  if(carlu == 'a')
+  if(carlu == 'a' && initialise)
   {
     detect = true;
     if(newValue[0] == '+' && posServo1 < 180)
@@ -117,7 +121,7 @@ void loop()
       --posServo1;
     newValue = "";
   }
-  else if(carlu == 'b')
+  else if(carlu == 'b' && initialise)
   {
     detect = true;
     if(newValue[0] == '+' && posServo2 < 180)
@@ -130,42 +134,59 @@ void loop()
        baseDroite();
     newValue = "";
   }  
-  else if(carlu == 'c')
+  else if(carlu == 'l')
+  {
+    initialise = true;
+    changeColorLed(255,10,0);
+  }  
+  else if(carlu == 'r' && initialise)
+  {
+    changeColorLed(255,0,0);
+  }  
+  else if(carlu == 'v' && initialise)
+  {
+    changeColorLed(0,255,0);
+  }  
+  else if(carlu == 'n' && initialise)
+  {
+    changeColorLed(0,0,255);
+  }  
+  else if(carlu == 'c' && initialise)
   {
     detect = false;
   }
-  else if(carlu == 's')
+  else if(carlu == 's' && initialise)
   {
     baseStop(); 
   }
-  else if(carlu == 'g')
+  else if(carlu == 'g' && initialise)
   {
     baseGauche(); 
   }
-  else if(carlu == 'd')
+  else if(carlu == 'd' && initialise)
   {
     baseDroite(); 
   }
-  else if(carlu == 'h')
+  else if(carlu == 'h' && initialise)
   {
     haut = true;
   }
-  else if(carlu == 'j')
+  else if(carlu == 'j' && initialise)
   {
     bas = true;
   }
-  else if(carlu == 'k')
+  else if(carlu == 'k' && initialise)
   {
     haut = false;
     bas = false; 
   }
   
-  if(haut)
+  if(haut && initialise)
       centreHautBas(true);
-  if(bas)
+  if(bas && initialise)
       centreHautBas(false);
   
-  if(!detect)
+  if(!detect && initialise)
       droiteGauche();
   /**/
 } 
