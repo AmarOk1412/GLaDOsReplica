@@ -14,11 +14,13 @@ Servo servoCentre;
 int posServo1 = 0;
 int posServo2 = 0;
 int posServoCentre = 0;
+int temps = 0;
 String newValue = "";
 char carlu = 0; 
 boolean detect = false;
 boolean droite = false;
 boolean initialise = false;
+boolean modeDanse = false;
 
 int REDPin = 4;    // RED pin of the LED to PWM pin 4
 int GREENPin = 5;  // GREEN pin of the LED to PWM pin 5
@@ -81,6 +83,17 @@ void changeColorLed(int R, int G, int B)
   analogWrite(BLUEPin, B);
 }
 
+void danse()
+{
+  if(temps >= 10)
+  {
+      servoCentre.write(random(0,180));
+      delay(100);
+      temps = 0;
+  }
+  ++temps;
+}
+
 void setup() 
 { 
   
@@ -95,7 +108,7 @@ void setup()
   servo2Tete.write(posServo1);
   servo1Tete.write(posServo2);
   Serial.begin(9600);
-  Serial.println("RORI - GLaDOs 1.0");
+  Serial.println(" RORI - GLaDOs 1.0");
 } 
 
 void loop()
@@ -180,6 +193,10 @@ void loop()
     haut = false;
     bas = false; 
   }
+  else if(carlu == 'z' && initialise)
+  {
+     modeDanse = modeDanse ? false : true; 
+  }
   
   if(haut && initialise)
       centreHautBas(true);
@@ -188,5 +205,7 @@ void loop()
   
   if(!detect && initialise)
       droiteGauche();
+  if(modeDanse && initialise)
+      danse();
   /**/
 } 
