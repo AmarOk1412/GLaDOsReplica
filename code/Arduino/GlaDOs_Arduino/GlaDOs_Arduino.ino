@@ -117,6 +117,9 @@ void loop()
   servo1Tete.write(posServo1);
   servo2Tete.write(posServo2);
   servoCentre.write(posServoCentre);
+  servoCentre.write(0);
+  delay(1000);
+  servoCentre.write(60);
   int cardispo = 0; //variable contenant le nombre de caractère disponibles dans le buffer
   cardispo = Serial.available();
   if(cardispo > 0) //tant qu'il y a des caractères à lire
