@@ -12,8 +12,8 @@ Servo servoCenter;
 
 int pos = 0;
 
-int posServo1 = 0;
-int posServo2 = 150;
+int posServo1 = 180;
+int posServo2 = 0;
 int posServoCenter = 0;
 
 int pinServo1 = 7;
@@ -41,7 +41,7 @@ void dance()
       servo1.write(i/9);
     delay(10);
   }
-  servoCenter.write(30);
+  servoCenter.write(60);
   for(int i = 180; i >= 0; --i)
   {
     servo2.write(i);
@@ -68,27 +68,60 @@ void talk()
   delay(500);
   servoCenter.write(40);
   servo1.write(20);
-  servo2.write(100);
+  servo2.write(140);
   delay(200);
   servoCenter.write(0);
   servo1.write(0);
-  servo2.write(150);
+  servo2.write(180);
   posServo1 = 0;
   posServo2 = 0;
   posServoCenter = 0;
 }
 
+void clignoter()
+{
+  for(int i = 1; i < 30 ; ++i)
+  {
+    analogWrite(REDPin, i);
+    analogWrite(BLUEPin, 0);
+    analogWrite(GREENPin, 0);
+    delay(10);
+  }
+  for(int i = 1; i < 30 ; ++i)
+  {
+    analogWrite(REDPin, 0);
+    analogWrite(BLUEPin, i);
+    analogWrite(GREENPin, 0);
+    delay(100);
+  }
+  for(int i = 1; i < 30 ; ++i)
+  {
+    analogWrite(REDPin, 0);
+    analogWrite(BLUEPin, i);
+    analogWrite(GREENPin, 0);
+    delay(100);
+  }
+  for(int i = 1; i < 180 ; ++i)
+  {
+    analogWrite(REDPin, 0);
+    analogWrite(BLUEPin, i);
+    analogWrite(GREENPin, 0);
+    delay(100);
+  }
+  analogWrite(GREENPin, 10);
+}
+
 void stopAll()
 {  
   posServo1 = 0;
-  posServo2 = 0;
+  posServo2 = 180;
   posServoCenter = 0;
   servo1.write(posServo1);
   servo2.write(posServo2);
   servoCenter.write(posServoCenter);
-  analogWrite(REDPin, 0);
+  analogWrite(REDPin, 255);
   analogWrite(BLUEPin, 0);
-  analogWrite(GREENPin, 0);
+  analogWrite(GREENPin, 10);
 }
 
 void setup() 
@@ -166,6 +199,10 @@ void loop()
     {
       analogWrite(BLUEPin, pos);
       pos = 0;
+    }
+    else if(ch == 'z') 
+    {
+      clignoter();
     }
     else if(ch == '+')
     {
